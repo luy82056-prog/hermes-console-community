@@ -1,0 +1,151 @@
+{
+  "name": "hermes-local-console",
+  "version": "0.1.0",
+  "private": true,
+  "author": "Luyu",
+  "description": "A local desktop control center for Hermes Agent.",
+  "main": "dist/main/main.js",
+  "scripts": {
+    "dev": "concurrently -k \"vite --host 127.0.0.1 --port 5188 --strictPort\" \"tsc -p tsconfig.node.json --watch\" \"wait-on tcp:5188 dist/main/main.js && cross-env VITE_DEV_SERVER_URL=http://127.0.0.1:5188 electron .\"",
+    "build": "tsc -p tsconfig.node.json && vite build",
+    "dist": "npm run build:insights && npm run build && cross-env CSC_IDENTITY_AUTO_DISCOVERY=false ELECTRON_MIRROR=https://npmmirror.com/mirrors/electron/ electron-builder --mac zip --arm64",
+    "dist:dmg": "npm run build:insights && npm run build && cross-env CSC_IDENTITY_AUTO_DISCOVERY=false ELECTRON_MIRROR=https://npmmirror.com/mirrors/electron/ electron-builder --mac dmg --arm64",
+    "dist:dir": "npm run build:insights && npm run build && cross-env CSC_IDENTITY_AUTO_DISCOVERY=false ELECTRON_MIRROR=https://npmmirror.com/mirrors/electron/ electron-builder --mac dir",
+    "typecheck": "tsc --noEmit && tsc -p tsconfig.node.json --noEmit",
+    "test:heartprint": "tsc -p tsconfig.node.json && node --test tests/heartprint-keywords.test.mjs",
+    "test:heartprint-memory": "tsc -p tsconfig.node.json && node --test tests/heartprint-memory.test.mjs",
+    "test:growth": "tsc -p tsconfig.node.json && node --test tests/growth-engine.test.mjs",
+    "test:discipline": "tsc -p tsconfig.node.json && node --test tests/discipline-engine.test.mjs",
+    "test:health": "tsc -p tsconfig.node.json && node --test tests/health-engine.test.mjs",
+    "test:permissions": "tsc -p tsconfig.node.json && node --test tests/acp-permissions.test.mjs tests/permission-window.test.mjs",
+    "test:knowledge": "tsc -p tsconfig.node.json && node --test tests/knowledge-vault.test.mjs",
+    "test:reader": "tsc -p tsconfig.node.json && node --test tests/reader-library.test.mjs",
+    "test:second-brain": "tsc -p tsconfig.node.json && node --test tests/second-brain.test.mjs",
+    "test:runtime": "tsc -p tsconfig.node.json && node --test tests/runtime-adapter.test.mjs",
+    "test:models": "tsc -p tsconfig.node.json && node --test tests/model-catalog.test.mjs tests/model-sync.test.mjs",
+    "test:model-config": "tsc -p tsconfig.node.json && electron tests/model-config.electron.cjs",
+    "preview": "vite preview --host 127.0.0.1",
+    "test:journal": "tsc -p tsconfig.node.json && node --test tests/heart-journal.test.mjs",
+    "test:knowledge-ui": "tsc -p tsconfig.node.json && electron tests/knowledge-ui.electron.cjs",
+    "test:knowledge-cleanup": "tsc -p tsconfig.node.json && node --test tests/knowledge-cleanup.test.mjs",
+    "build:insights": "uv run --python 3.13 --with pyinstaller==6.22.3 --with jsonschema==4.25.1 --with zstandard==0.25.0 --with PyYAML==6.0.3 --with json5==0.12.1 python scripts/build-insights-worker.py",
+    "test:insights": "tsc -p tsconfig.node.json && node --test tests/insights-engine.test.mjs",
+    "test:insights-ui": "tsc -p tsconfig.node.json && electron tests/insights-ui.electron.cjs",
+    "test:insights-sources": "python3 tests/insights-worker.test.py",
+    "test:insights-native": "python3 tests/insights-native.test.py"
+  },
+  "build": {
+    "appId": "ai.hermes.local-console",
+    "productName": "Hermes Console",
+    "asar": true,
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/main/**/*",
+      "dist/preload/**/*",
+      "dist/renderer/**/*",
+      "package.json",
+      "dist/shared/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "scripts/hermes-notion.py",
+        "to": "hermes-notion.py"
+      },
+      {
+        "from": "THIRD_PARTY_NOTICES.md",
+        "to": "THIRD_PARTY_NOTICES.md"
+      },
+      {
+        "from": "scripts/sync-codex-auth.py",
+        "to": "sync-codex-auth.py"
+      },
+      {
+        "from": ".cache/insights-dist/hermes-insights",
+        "to": "hermes-insights"
+      },
+      {
+        "from": "scripts/insights-native.py",
+        "to": "insights-native.py"
+      },
+      {
+        "from": "vendor/orbit-data/LICENSE",
+        "to": "licenses/orbit-data-LICENSE"
+      },
+      {
+        "from": "vendor/orbit-data/UPSTREAM.json",
+        "to": "licenses/orbit-data-UPSTREAM.json"
+      }
+    ],
+    "fileAssociations": [
+      {
+        "ext": [
+          "md",
+          "markdown",
+          "txt",
+          "epub"
+        ],
+        "name": "Hermes Reading Document",
+        "role": "Viewer"
+      }
+    ],
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "icon": "build/icon.icns",
+      "target": [
+        {
+          "target": "zip",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        }
+      ]
+    },
+    "dmg": {
+      "artifactName": "Hermes-Console-${version}-${arch}.${ext}",
+      "contents": [
+        {
+          "x": 140,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    }
+  },
+  "dependencies": {
+    "@milkdown/crepe": "^7.21.3",
+    "@milkdown/kit": "^7.21.3",
+    "d3-cloud": "^1.2.9",
+    "gray-matter": "^4.0.3",
+    "jszip": "^3.10.1",
+    "lucide-react": "^0.554.0",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
+    "react-force-graph-2d": "^1.29.1",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
+    "sanitize-html": "^2.17.6"
+  },
+  "devDependencies": {
+    "@types/d3-cloud": "^1.2.9",
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@types/sanitize-html": "^2.16.1",
+    "@vitejs/plugin-react": "^5.0.4",
+    "concurrently": "^9.2.1",
+    "cross-env": "^10.1.0",
+    "electron": "^39.2.7",
+    "electron-builder": "^26.8.1",
+    "typescript": "^5.9.3",
+    "vite": "^7.2.4",
+    "wait-on": "^9.0.3"
+  }
+}

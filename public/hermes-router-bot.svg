@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Hermes router robot">
+  <defs>
+    <radialGradient id="halo" cx="50%" cy="35%" r="62%">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.58" stop-color="#f2ece6"/>
+      <stop offset="1" stop-color="#dfd2cb"/>
+    </radialGradient>
+    <linearGradient id="shell" x1="20%" x2="82%" y1="15%" y2="92%">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.42" stop-color="#f5f7fb"/>
+      <stop offset="1" stop-color="#c9cdd4"/>
+    </linearGradient>
+    <linearGradient id="dark" x1="0" x2="1">
+      <stop offset="0" stop-color="#161719"/>
+      <stop offset="1" stop-color="#07080a"/>
+    </linearGradient>
+    <filter id="glow" color-interpolation-filters="sRGB" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#1f2933" flood-opacity="0.22"/>
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#halo)"/>
+  <g filter="url(#softShadow)">
+    <path d="M132 111c-9 0-17 7-19 16l-25 116c-3 13 7 25 20 25h26c10 0 19-8 20-18l20-116c2-12-8-23-20-23h-22Z" fill="#1e2024"/>
+    <path d="M358 111c-12 0-21 11-19 23l20 116c2 10 10 18 20 18h26c13 0 23-12 20-25l-25-116c-2-9-10-16-19-16h-23Z" fill="#1e2024"/>
+    <circle cx="132" cy="121" r="18" fill="#58b6ff" filter="url(#glow)"/>
+    <circle cx="380" cy="121" r="18" fill="#58b6ff" filter="url(#glow)"/>
+    <path d="M97 174c0-35 29-64 64-64h190c35 0 64 29 64 64v103c0 36-29 64-64 64H161c-35 0-64-28-64-64V174Z" fill="url(#shell)"/>
+    <path d="M126 187c0-25 20-45 45-45h170c25 0 45 20 45 45v74c0 25-20 45-45 45H171c-25 0-45-20-45-45v-74Z" fill="url(#dark)"/>
+    <circle cx="195" cy="230" r="34" fill="#55b7ff" filter="url(#glow)"/>
+    <circle cx="195" cy="230" r="20" fill="#071017"/>
+    <circle cx="207" cy="216" r="8" fill="#f8fbff"/>
+    <circle cx="317" cy="230" r="34" fill="#55b7ff" filter="url(#glow)"/>
+    <circle cx="317" cy="230" r="20" fill="#071017"/>
+    <circle cx="329" cy="216" r="8" fill="#f8fbff"/>
+    <path d="M228 267c17 20 39 20 56 0" fill="none" stroke="#5bbcff" stroke-linecap="round" stroke-width="12" filter="url(#glow)"/>
+    <path d="M183 184c10-13 27-13 37 0" fill="none" stroke="#62bdff" stroke-linecap="round" stroke-width="8"/>
+    <path d="M293 184c10-13 27-13 37 0" fill="none" stroke="#62bdff" stroke-linecap="round" stroke-width="8"/>
+    <g filter="url(#glow)" stroke="#58b6ff" stroke-linecap="round" stroke-width="10">
+      <path d="M360 197h22"/>
+      <path d="M360 224h22"/>
+      <path d="M360 251h22"/>
+    </g>
+    <path d="M207 337h98c24 0 43 19 43 43v22H164v-22c0-24 19-43 43-43Z" fill="url(#shell)"/>
+    <rect x="218" y="359" width="76" height="52" rx="18" fill="#1b1c20"/>
+    <g fill="none" stroke="#59b8ff" stroke-linecap="round" filter="url(#glow)">
+      <path d="M235 385c12-12 30-12 42 0" stroke-width="7"/>
+      <path d="M244 397c7-7 17-7 24 0" stroke-width="6"/>
+      <path d="M256 407h.1" stroke-width="8"/>
+    </g>
+    <path d="M148 355c-21 7-43 0-56-18" stroke="#1c1d20" stroke-linecap="round" stroke-width="28"/>
+    <path d="M364 355c21 7 43 0 56-18" stroke="#1c1d20" stroke-linecap="round" stroke-width="28"/>
+    <circle cx="137" cy="361" r="28" fill="url(#shell)"/>
+    <circle cx="375" cy="361" r="28" fill="url(#shell)"/>
+  </g>
+</svg>

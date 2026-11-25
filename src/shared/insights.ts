@@ -1,0 +1,22 @@
+export type SourceAgent = "hermes" | "codex" | "claude_code";
+export type SourceConfig = { id: string; agent: SourceAgent; root: string; enabled: boolean; lastScan?: string; problem?: string };
+export type SourceRef = { id: string; sourceId: string; agent: SourceAgent; sessionId: string; nativeId: string; project: string; at: string | null; kind: string; actor: string; path: string; digest: string; available: boolean; truncated: boolean; attachmentsOmitted?: number; text: string };
+export type MemoryCandidate = { id: string; text: string; category: "fact" | "preference" | "goal" | "boundary"; scope: string; origin: "explicit" | "verified" | "inferred"; evidence: string[]; status: "pending" | "confirmed" | "rejected" | "forgotten"; conflicts: string[]; createdAt: string; updatedAt: string; nativeId?: string };
+export type ProcessingJob = { id: string; kind: "scan" | "daily" | "weekly" | "cleanup"; key: string; state: "queued" | "running" | "completed" | "partial" | "failed" | "interrupted" | "cancelled"; message: string; createdAt: string; updatedAt: string };
+export type EvolutionProposal = { id: string; title: string; problem: string; evidence: string[]; change: string; verification: string; scope: string; kind: "rule" | "skill"; status: "pending" | "applied" | "rejected" | "reverted"; createdAt: string; appliedAt?: string; path?: string; before?: string | null; after?: string; nativeId?: string; observations?: string };
+export type InsightDocument = { path: string; title: string; updatedAt: string; evidence: string[]; kind: "daily" | "knowledge"; scope: string };
+export type NativePending = { id: string; agentId: string; subsystem: "memory" | "skills"; summary: string; detail: string; digest: string; status?: "pending" | "applied" };
+export type InsightsSnapshot = { ready: boolean; paused: boolean; error?: string; sources: SourceConfig[]; jobs: ProcessingJob[]; candidates: MemoryCandidate[]; proposals: EvolutionProposal[]; documents: InsightDocument[]; coverage: string[]; nativePending: NativePending[]; modelLabel?: string };
+export type InsightResult<T> = { ok: true; data: T } | { ok: false; reason: string };
+export type InsightsBridge = {
+  insightsStatus(): Promise<InsightResult<InsightsSnapshot>>;
+  insightsRun(): Promise<InsightResult<null>>;
+  insightsPause(paused: boolean): Promise<InsightResult<null>>;
+  insightsSource(id: string, enabled: boolean): Promise<InsightResult<null>>;
+  insightsTimeline(query?: string, day?: string, offset?: number): Promise<InsightResult<{ items: SourceRef[]; more: boolean }>>;
+  insightsEvidence(id: string): Promise<InsightResult<SourceRef>>;
+  insightsMemory(id: string, action: "confirm" | "reject" | "forget"): Promise<InsightResult<null>>;
+  insightsProposal(id: string, action: "apply" | "reject" | "revert"): Promise<InsightResult<null>>;
+  insightsNative(item: NativePending, action: "approve" | "reject" | "undo"): Promise<InsightResult<null>>;
+  onInsightsUpdated(callback: () => void): () => void;
+};

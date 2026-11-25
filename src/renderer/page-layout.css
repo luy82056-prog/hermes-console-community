@@ -1,0 +1,429 @@
+/* Secondary pages respond to the usable workspace, not the window width. */
+:is(.knowledge-page, .health-page, .task-center, .heartprint-page, .growth-page) {
+  min-width: 0;
+  width: 100%;
+}
+
+:is(.knowledge-workspace, .reader-studio, .health-workbench, .growth-workbench, .growth-lower-grid, .task-overview, .overview-grid) > * {
+  min-width: 0;
+}
+
+:is(.health-page, .task-center, .heartprint-page, .growth-page) :is(h3, h4, p, strong, small, em) {
+  overflow-wrap: anywhere;
+}
+
+:is(.health-page, .task-center, .heartprint-page, .growth-page) .section-toolbar {
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+:is(.health-page, .task-center, .heartprint-page, .growth-page) .section-toolbar > div {
+  min-width: 0;
+}
+
+/* Saved panel widths can otherwise exceed the current window after a resize. */
+.knowledge-page {
+  flex: 1 0 auto;
+}
+
+.knowledge-commandbar {
+  position: relative;
+  flex: 0 0 auto;
+  height: auto;
+  align-content: start;
+  grid-auto-rows: minmax(36px, auto);
+  grid-template-columns: minmax(0, 1fr) auto auto auto;
+  gap: 10px;
+}
+
+.knowledge-commandbar > :is(.segmented, .second-brain-toggle, .knowledge-layout-actions) {
+  position: static;
+  inset: auto;
+  transform: none;
+  margin: 0;
+  min-width: 0;
+}
+
+.knowledge-commandbar > .segmented {
+  align-self: center;
+  flex-wrap: wrap;
+}
+
+.knowledge-workspace {
+  --knowledge-main-min: 420px;
+  flex: 1 0 auto;
+  grid-template-columns:
+    minmax(190px, min(var(--knowledge-left-width, 248px), 24%))
+    10px minmax(420px, 1fr) 10px
+    minmax(210px, min(var(--knowledge-right-width, 272px), 24%));
+  grid-template-areas: "browser left-resizer editor right-resizer inspector";
+  min-width: 0;
+}
+
+.knowledge-workspace.right-hidden {
+  grid-template-columns: minmax(190px, min(var(--knowledge-left-width, 248px), 28%)) 10px minmax(420px, 1fr);
+  grid-template-areas: "browser left-resizer editor";
+}
+
+.knowledge-workspace.left-hidden {
+  grid-template-columns: minmax(420px, 1fr) 10px minmax(210px, min(var(--knowledge-right-width, 272px), 28%));
+  grid-template-areas: "editor right-resizer inspector";
+}
+
+.knowledge-workspace.left-hidden.right-hidden,
+.knowledge-workspace.focus-mode {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "editor";
+}
+
+.knowledge-browser { grid-area: browser; }
+.knowledge-resizer-left { grid-area: left-resizer; }
+.knowledge-main { grid-area: editor; }
+.knowledge-resizer-right { grid-area: right-resizer; }
+.knowledge-inspector { grid-area: inspector; }
+
+.knowledge-editor .ProseMirror {
+  padding-inline: clamp(28px, 5%, 52px);
+  overflow-wrap: anywhere;
+}
+
+.knowledge-vault-name > svg,
+.knowledge-vault-name > button {
+  flex-shrink: 0;
+}
+
+.knowledge-note-tags,
+.knowledge-inspector :is(p, small, .knowledge-outline span) {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.knowledge-graph-panel > :is(header, footer) {
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-block: 10px;
+}
+
+.knowledge-graph,
+.knowledge-graph-panel,
+.knowledge-editor-wrap {
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* Keep a useful text column; the outline and highlights move below it. */
+.reader-studio {
+  flex: 1 0 auto;
+  grid-template-columns: minmax(180px, 200px) minmax(440px, 1fr) minmax(190px, 220px);
+  grid-template-areas: "library reading notes";
+  min-width: 0;
+}
+
+.reader-library { grid-area: library; min-width: 0; }
+.reader-surface { grid-area: reading; }
+.reader-notes { grid-area: notes; display: block; min-width: 0; }
+
+.reader-toolbar {
+  position: relative;
+  inset: auto;
+  flex: 0 0 auto;
+  height: auto;
+  align-content: start;
+  flex-wrap: wrap;
+}
+
+.reader-title { flex: 1 1 170px; }
+.reader-title strong {
+  white-space: normal;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.reader-tools { flex-wrap: wrap; max-width: 100%; }
+
+.reader-article {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  padding-inline: clamp(28px, 6%, 52px);
+}
+
+.reader-article .markdown-table-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.reader-article.epub table {
+  display: block;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+}
+
+.reader-highlights blockquote,
+.reader-highlights blockquote p {
+  overflow-wrap: anywhere;
+}
+
+/* Native input minimums also contribute to the health form's grid width. */
+.health-profile-grid,
+.health-checkin-grid {
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+
+:is(.health-profile, .health-checkin) :is(label, select, textarea, input:not([type="checkbox"])) {
+  min-width: 0;
+  max-width: 100%;
+}
+
+:is(.health-profile, .health-checkin) :is(select, textarea, input:not([type="checkbox"])) {
+  width: 100%;
+}
+
+.health-hero { gap: 24px; }
+.health-hero > div:first-child { min-width: 0; }
+.health-hero-actions > div { flex-wrap: wrap; }
+.health-interview-identity { min-width: 0; }
+.health-interview-identity > div { min-width: 0; }
+
+.health-interview-markdown :is(pre, table) {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.health-source-list > button,
+.health-plan-grid > article {
+  min-width: 0;
+}
+
+.health-source-list footer { flex-wrap: wrap; }
+
+/* Keep actions attached to the row while allowing titles and metadata to wrap. */
+.task-center-head { flex-wrap: wrap; gap: 14px; }
+.task-center-head > div:first-child { min-width: 0; flex: 1 1 280px; }
+.task-head-actions { min-width: 0; flex-wrap: wrap; }
+.compact-select { min-width: 130px; max-width: 220px; }
+.compact-select select { min-width: 0; max-width: 100%; }
+.task-tabs { min-width: 0; }
+.task-tabs > button { flex-shrink: 0; white-space: nowrap; }
+
+.profile-lanes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  min-width: 0;
+}
+
+.profile-lanes article { min-width: 0; }
+.task-row { display: grid; grid-template-columns: 9px minmax(0, 1fr) auto auto; }
+.task-row > .row-actions { flex-shrink: 0; }
+.task-feedback { gap: 12px; }
+.task-feedback > span { min-width: 0; overflow-wrap: anywhere; }
+
+.job-row {
+  display: grid;
+  grid-template-columns: 9px minmax(0, 1fr) minmax(150px, auto) auto;
+}
+
+.job-time { min-width: 0; }
+.job-main strong,
+.job-main small { overflow-wrap: anywhere; }
+
+.kanban-columns {
+  min-width: 0;
+  max-width: 100%;
+  grid-template-columns: repeat(6, minmax(190px, 1fr));
+  overscroll-behavior-x: contain;
+}
+
+.kanban-task,
+.dag-node { min-width: 0; }
+.dag-canvas { min-width: 0; max-width: 100%; overscroll-behavior-x: contain; }
+.runs-view > :is(aside, section) { min-width: 0; }
+.run-timeline article { grid-template-columns: 34px minmax(0, 1fr); }
+.run-timeline pre { min-width: 0; max-width: 100%; overflow-wrap: anywhere; }
+.approval-row > div:last-child { flex-wrap: wrap; flex-shrink: 0; }
+
+/* Personal pages need card minimums rather than a fixed number of columns. */
+.heartprint-hero,
+.growth-hero { gap: 22px; }
+.heartprint-hero > div:first-child,
+.growth-hero > div:first-child { min-width: 0; }
+.heartprint-actions { flex-wrap: wrap; }
+.heartprint-items article > footer { flex-wrap: wrap; }
+.heartprint-keyword-detail > header { grid-template-columns: minmax(0, 1fr) auto 34px; }
+.heartprint-keyword-detail > header > div { min-width: 0; flex-wrap: wrap; }
+.heartprint-chronicle article { grid-template-columns: 95px minmax(0, .7fr) minmax(0, 1fr); }
+
+.discipline-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.discipline-goal { min-width: 0; }
+.discipline-goal > header > div { min-width: 0; }
+.discipline-edit { flex-shrink: 0; }
+.growth-hex-grid { grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); }
+.growth-skill-path { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+.growth-detail > header { gap: 14px; }
+.growth-detail > header > div { min-width: 0; }
+.growth-detail > header > span { flex-shrink: 0; }
+.growth-evidence article header { grid-template-columns: auto minmax(0, 1fr) auto; }
+
+.stack:has(> .overview-grid) > .metrics {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.stack:has(> .overview-grid) :is(.hero-band, .metric, .update-state) {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.stack:has(> .overview-grid) .hero-symbol { flex-shrink: 0; }
+.overview-grid .update-actions { flex-wrap: wrap; }
+
+@container workspace (max-width: 1040px) {
+  .knowledge-commandbar {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .knowledge-commandbar > .segmented { grid-column: 1; grid-row: 2; justify-self: start; }
+  .knowledge-commandbar > .second-brain-toggle { grid-column: 2; grid-row: 1; }
+  .knowledge-layout-actions { grid-column: 2; grid-row: 2; justify-self: end; }
+
+  .knowledge-workspace:not(.right-hidden):not(.focus-mode) {
+    grid-template-columns: minmax(190px, min(var(--knowledge-left-width, 248px), 28%)) 10px minmax(420px, 1fr);
+    grid-template-areas:
+      "browser left-resizer editor"
+      "browser left-resizer right-resizer"
+      "browser left-resizer inspector";
+    grid-template-rows: minmax(540px, auto) 10px auto;
+  }
+
+  .knowledge-workspace.left-hidden:not(.right-hidden):not(.focus-mode) {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "editor" "right-resizer" "inspector";
+  }
+
+  .knowledge-workspace:not(.right-hidden):not(.focus-mode) .knowledge-inspector {
+    display: grid;
+    align-content: start;
+    gap: 0 20px;
+    grid-template-columns: repeat(auto-fit, minmax(min(var(--knowledge-right-width, 272px), 100%), 1fr));
+    overflow: visible;
+  }
+
+  .knowledge-workspace:not(.right-hidden):not(.focus-mode) .knowledge-resizer-right::before {
+    height: 1px;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+  }
+
+  .knowledge-workspace:not(.right-hidden):not(.focus-mode) .knowledge-resizer-right svg {
+    height: 10px;
+  }
+
+  .reader-studio {
+    grid-template-columns: 190px minmax(440px, 1fr);
+    grid-template-areas: "library reading" "notes notes";
+    grid-template-rows: minmax(560px, auto) auto;
+  }
+
+  .reader-notes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 24px;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .reader-notes > footer { grid-column: 1 / -1; }
+  .health-workbench { grid-template-columns: minmax(0, 1fr); }
+  .health-hero { flex-wrap: wrap; }
+  .health-hero-actions { align-items: flex-start; }
+  .runtime-band { align-items: stretch; flex-direction: column; }
+  .runtime-band > div:first-child { max-width: none; }
+  .profile-lanes { width: 100%; }
+  .health-plan-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .growth-workbench { grid-template-columns: minmax(0, 1fr); }
+  .growth-hex-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+}
+
+@container workspace (max-width: 850px) {
+  .grid.two.overview-grid,
+  .growth-lower-grid,
+  .heartprint-grid { grid-template-columns: minmax(0, 1fr); }
+  .heartprint-items { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .heartprint-keyword-detail > div { grid-template-columns: minmax(0, 1fr); }
+  .health-metrics,
+  .task-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .health-source-list { grid-template-columns: minmax(0, 1fr); }
+  .task-center-head { align-items: flex-start; }
+  .task-head-actions { width: 100%; }
+  .job-row { grid-template-columns: 9px minmax(0, 1fr) auto; }
+  .job-main { grid-column: 2 / -1; }
+  .job-time { grid-column: 2; text-align: left; }
+  .job-row > .row-actions { grid-column: 3; align-self: end; }
+  .approval-row { flex-wrap: wrap; }
+  .approval-row > div:last-child { margin-left: 32px; }
+  .loop-policy { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@container workspace (max-width: 760px) {
+  .knowledge-workspace:not(.focus-mode):not(.left-hidden.right-hidden) {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "browser" "left-resizer" "editor" "right-resizer" "inspector";
+    grid-template-rows: auto 10px minmax(540px, auto) 10px auto;
+  }
+
+  .knowledge-workspace.left-hidden:not(.right-hidden):not(.focus-mode) {
+    grid-template-areas: "editor" "right-resizer" "inspector";
+    grid-template-rows: minmax(540px, auto) 10px auto;
+  }
+
+  .knowledge-workspace.right-hidden:not(.left-hidden):not(.focus-mode) {
+    grid-template-areas: "browser" "left-resizer" "editor";
+    grid-template-rows: auto 10px minmax(540px, auto);
+  }
+
+  .knowledge-browser { height: 360px; max-height: 360px; overflow: auto; }
+  .knowledge-folders { max-height: 200px; overflow-y: auto; flex-shrink: 0; }
+  .knowledge-note-list { min-height: 100px; }
+  .knowledge-resizer-left::before { height: 1px; width: 100%; left: 0; top: 50%; transform: translateY(-50%); }
+  .knowledge-resizer-left svg { height: 10px; }
+
+  .reader-studio {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "library" "reading" "notes";
+    grid-template-rows: auto minmax(560px, auto) auto;
+  }
+
+  .reader-library { max-height: 280px; border-right: 0; border-bottom: 1px solid var(--line); }
+  .reader-document-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+  .reader-document-list > button { min-width: 0; }
+  .heartprint-hero,
+  .growth-hero { align-items: flex-start; flex-wrap: wrap; }
+  .heartprint-revision,
+  .growth-level { min-width: 0; }
+  .heartprint-chronicle article { grid-template-columns: 95px minmax(0, 1fr); }
+  .heartprint-chronicle article > p { grid-column: 2; }
+  .runs-view { grid-template-columns: minmax(0, 1fr); }
+  .runs-view > aside { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); max-height: 240px; overflow-y: auto; border-right: 0; border-bottom: 1px solid var(--line); }
+  .growth-evidence article header { grid-template-columns: minmax(0, 1fr) auto; }
+  .growth-evidence article header > time { grid-column: 1 / -1; }
+}
+
+@container workspace (max-width: 640px) {
+  .knowledge-commandbar { grid-template-columns: minmax(0, 1fr); }
+  .knowledge-commandbar > .segmented,
+  .knowledge-commandbar > .second-brain-toggle,
+  .knowledge-layout-actions { grid-column: 1; grid-row: auto; justify-self: start; }
+  .reader-notes,
+  .heartprint-items { grid-template-columns: minmax(0, 1fr); }
+  .reader-notes > footer { grid-column: 1; }
+  .health-profile-grid,
+  .health-checkin-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .health-profile label.wide,
+  .health-checkin label.wide { grid-column: 1 / -1; }
+  .profile-lanes { grid-template-columns: minmax(0, 1fr); }
+  .profile-lanes article { border-left: 0; border-top: 1px solid var(--line); }
+  .heartprint-keyword-detail > header { grid-template-columns: minmax(0, 1fr) 34px; }
+  .heartprint-keyword-detail > header > small { grid-column: 1; grid-row: 2; }
+  .heartprint-keyword-detail > header > button { grid-column: 2; grid-row: 1 / 3; }
+}
